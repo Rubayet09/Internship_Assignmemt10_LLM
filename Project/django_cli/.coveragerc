@@ -1,0 +1,20 @@
+[run]
+source = property_rewriter
+
+[report]
+include =
+    */property_rewriter/management/commands/rewrite_properties.py
+    */property_rewriter/models.py
+    */property_rewriter/services/gemini_service.py
+    */property_rewriter/services/property_service.py
+
+omit =
+    */migrations/*
+    */tests/*
+    */admin.py
+    */apps.py
+    */__init__.py
+    */views.py
+
+[html]
+directory = htmlcov
