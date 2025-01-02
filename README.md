@@ -83,32 +83,54 @@ SELECT * FROM property_rewriter_propertysummary;
 
 ## Project Structure
 
+```
+
 Project/
 ├── django_cli/
+│   ├── django_cli/
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   ├── property_rewriter/
+│   │   ├── management/
+│   │   │   ├── commands/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── rewrite_properties.py
+│   │   │   └── __init__.py
+│   │   ├── migrations/
+│   │   │   ├── __init__.py
+│   │   ├── services/
+│   │   │   ├── gemini_service.py
+│   │   │   └── property_service.py
+│   │   ├── __init__.py
+│   │   ├── tests.py
+│   │   ├── views.py
+│   │   ├── models.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+├── hotel_images/
+│   └── .gitkeep
+├── src/
+│   ├── projectscrape/
+│   │   ├── database.py
+│   │   ├── main.py
+├── tests/
 │   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-├── property_rewriter/
-│   ├── management/
-│   │   ├── commands/
-│   │   │   ├── rewrite_properties.py
-│   ├── migrations/
-│   ├── models.py
-│   ├── services/
-│   │   ├── gemini_service.py
-│   │   └── property_service.py
-│   ├── tests.py
-│   └── views.py
-├── manage.py
-├── README.md
-├── setup.py
+├── .env
+├── .gitignore
+├── docker-compose.test.yml
 ├── docker-compose.yml
 ├── Dockerfile
-└── .env
+├── hotels_data.json  # This is an empty file
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+├── setup.py
 
-
+```
 
 ## Author
 Rubayet Shareen
