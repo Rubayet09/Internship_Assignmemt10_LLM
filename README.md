@@ -79,7 +79,28 @@ SELECT * FROM property_rewriter_propertyreview;
 
 SELECT * FROM property_rewriter_propertysummary;
  ```
+### Steps: 5. Installation for test:
+ ```bash
 
+docker-compose exec web pip install pytest pytest-django pytest-cov coverage
+
+```
+### Steps: 6. Run the Test:
+ ```bash
+
+docker-compose exec web pytest -v --cov=property_rewriter --cov-report=html
+```
+It will show, Total coverage: 100.00%
+```
+Name                                                          Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------------
+property_rewriter/management/commands/rewrite_properties.py      12      0   100%
+property_rewriter/models.py                                      23      0   100%
+property_rewriter/services/gemini_service.py                     48      0   100%
+property_rewriter/services/property_service.py                   20      0   100%
+-------------------------------------------------------------------------------------------
+TOTAL                                                           103      0   100%
+```
 
 ## Project Structure
 
