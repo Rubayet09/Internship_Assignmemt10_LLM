@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: ulala
+      POSTGRES_DB: tripcom_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - shared_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d tripcom_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  
+  scraper:
+    build: .
+    command: ['python', '-m', 'app.src.projectscrape.main']
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - shared_data:/shared
+      - ./hotel_images:/app/hotel_images
+      - ./hotels_data.json:/app/hotels_data.json:rw
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://myuser:ulala@db:5432/tripcom_db
+    env_file:
+      - .env
+
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - shared_data:/shared
+      - ./django_cli:/app
+      - ./hotel_images:/app/hotel_images
+    environment:
+      - POSTGRES_DB=tripcom_db
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=ulala
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - GEMINI_API_KEY=AIzaSyCS38xfphrjPnq2caCooPpMoY3zId1fYvU
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sleep infinity
+
+volumes:
+  shared_data:

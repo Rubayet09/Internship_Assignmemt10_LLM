@@ -1,0 +1,34 @@
+# Ignore Python compiled files and caches
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore Django specific files
+*.log
+*.pot
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+# Ignore the uv.lock file
+uv.lock
+
+# Ignore egg-info directories
+*.egg-info/
+projectscrape.egg-info/
+
+# Exclude everything in hotel_images except for .gitkeep
+Project/hotel_images/*
+!Project/hotel_images/.gitkeep
+
+# Exclude hotels_data.json but allow it to be tracked
+!Project/hotels_data.json
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
