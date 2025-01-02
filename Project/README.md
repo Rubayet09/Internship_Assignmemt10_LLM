@@ -1,151 +1,85 @@
 
-## Internship_w3_Assignment8
+# Django CLI Application for Property Rewriting
 
-
-
-
-gemiki key= AIzaSyCS38xfphrjPnq2caCooPpMoY3zId1fYvU
-
-
-#_________#################_____________#
-For Linux with Docker:
-docker-compose up --build
-
-For Postgres Table:
-
-docker-compose exec db psql -U myuser -d tripcom_db
-
-
-SELECT * FROM properties;
-
-To exit: \q
-
-#_________#################_____________#
-
-# see the tables.
-tripcom_db=# SELECT * FROM property_rewriter_propertyreview; 
-tripcom_db=# SELECT * FROM property_rewriter_propertysummary; 
-tripcom_db=# SELECT * FROM properties; 
-
-
-
-
-# Create migrations
-docker-compose exec web python manage.py makemigrations property_rewriter
-
-# Apply migrations
-docker-compose exec web python manage.py migrate property_rewriter
-
-# Rubn the  Gemini
-docker-compose exec web python manage.py rewrite_properties
-
-# see the tables.
-tripcom_db=# SELECT * FROM property_rewriter_propertyreview; 
-tripcom_db=# SELECT * FROM property_rewriter_propertysummary; 
-tripcom_db=# SELECT * FROM properties; 
-
-
-
-# Scrape Property Info into Postgres database Internship Project A8
-
-## Table of Contents 
-1. [Overview](#overview) 
-2. [Key Features](#key-features) 
-3.  [Technologies Used](#technologies-used) 
-5. [Development Setup](#development-setup) 
-6. [Project Structure](#project-structure) 
-7. [Author](#author)
-
+## Table of Contents
+1. [Overview](#overview)
+2. [Key Features](#key-features)
+3. [Technologies Used](#technologies-used)
+4. [Development Setup](#development-setup)
+5. [Project Structure](#project-structure)
+6. [Author](#author)
 
 ## Overview
-This a project where scrapy spider have been used to scrape data from a website: https://uk.trip.com/hotels/?locale=en-GB&curr=GBP and store them into postgres database. The project also involves code coverage testing.
+This project involves building a Django CLI application that leverages an Ollama model to rewrite property titles and descriptions, generate summaries, and create ratings and reviews. The rewritten content and generated metadata are stored in a PostgreSQL database using Django ORM. The application ensures high code coverage and adheres to best practices.
 
-## Key Features 
-- **Scraping Data**: Scraping the data from website, the property details of all the hotels among all the cities  get scraped.
-- **Selected Data**: Among all the cities, random 3 cities get selected and stores their hotel details.
- - **Postgres Table**: The selected data can be seen in the postgres table.
+---
 
+## Key Features
+- **Rewriting Property Information**: Utilizes an Ollama model in this case I have used Gemini to rewrite property titles and descriptions.
+- **Summary Generation**: Summarizes property data and stores it in a separate table.
+- **Ratings and Reviews**: Generates ratings and reviews using the model and saves them in  another table in the database.
+- **Database Integration**: Employs PostgreSQL for data storage and Django ORM for seamless interactions.
+- **CLI Interface**: Implements Django CLI commands for executing tasks.
+
+---
 
 ## Technologies Used
+- **Django**
+- **PostgreSQL**
+- **Ollama Model: `gemini-2.0-flash-exp` model** For text generation and LLM functionalities.
+- **Python**
+- **Django ORM**
 
-- **Framework**: Scrapy
-- **Database**: Postgres with SqlAlchemy
-- **Testing**: Python `unittest` 
-
+---
 
 ## Development Setup
 
 ### Prerequisites
-
 Ensure the following are installed on your system:
+- Python 3.6 or higher
+- PostgreSQL
+- Django framework
+- Ollama CLI (refer to [Ollama Documentation](https://ollama.com/))
 
-- Python 3.10 or higher
-- Scrapy
-- PostgreSQL with SqlAlchemy extension 
+---
 
-
-### Installing PostgreSQL
-1. If not installed, use Homebrew:
-    ```bash
-    sudo apt-get install build-essential procps curl file git
-
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    
-    brew install postgresql
-    ```
-
-2. After installation, create the myuser using the following commands,
-    ```bash
-    psql postgres
-    CREATE DATABASE tripcom_db;
-    CREATE USER myuser WITH PASSWORD 'ulala';
-    GRANT ALL PRIVILEGES ON DATABASE tripcom_db TO myuser;
-    GRANT ALL PRIVILEGES ON DATABASE tripcom_db TO myuser;
-    \q
-    ```
-3. Verify the installation with the following python script
-    ```python 
-    from sqlalchemy import create_engine
-    engine = create_engine('postgresql+psycopg2://myuser:mypassword@localhost:5432/tripcom_db')
-    connection = engine.connect()
-    print("Connected successfully!")
-    connection.close()
-    ```
-## Installing uv & running the project.
-Please intsall uv to create the virtual environemnt.
-
-```bash    
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Please navigate to the root folder of the project. Now, run the following commands to generate the python environment.
+### Steps: 1. Clone the repository:
 ```bash
-uv sync
+git clone https://github.com/Rubayet09/Internship_Assignmemt10_LLM
+cd Project
 ```
 
-Now run the following command to run the project.
 
-```bash
-uv run python main.py
-```
 
-Database state view
+django_cli_property_rewriter/
+├── django_cli/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+├── property_rewriter/
+│   ├── management/
+│   │   ├── commands/
+│   │   │   ├── rewrite_property_info.py
+│   │   │   ├── generate_property_summary.py
+│   │   │   └── generate_property_reviews.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── services/
+│   │   ├── ollama_service.py
+│   │   └── __init__.py
+│   ├── tests.py
+│   └── views.py
+├── manage.py
+├── requirements.txt
+├── README.md
+├── setup.py
+└── .env
 
-To see the current state of the database, please run the `database.py`  file, using the following command.
 
-```bash 
-uv run python database.py
-```
-
-Code coverage test
-
-To run the code coverage please run the following command.
-```bash
-uv run pytest test_main.py --cov=main --cov-report=term-missing
-```
 
 ## Author
-
 Rubayet Shareen
 SWE Intern, W3 Engineers
 Dhaka, Bangladesh
